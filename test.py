@@ -93,7 +93,6 @@ if args.model_best:
     model_best_path = args.model_best
 else:
     model_best_path = f"{output_dir}/{args.task}_model_best.pth.tar"
-    # model_best_path = f"{output_dir}/{args.task}model_best.pth.tar"
 checkpoint = torch.load(model_best_path)
 model.load_state_dict(checkpoint["state_dict"])
 

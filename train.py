@@ -65,10 +65,68 @@ def main():
         + args.task,
     )
 
-    results_root = args.results_root
-    output_dir = f"{results_root}/{args.net}_{drop_id_dir}{ptb_id_dir}{args.dataset}"
-    task_dir = f"{output_dir}/{args.task}"
+    args.output_dir = (
+        f"{args.results_root}/{args.net}_{drop_id_dir}{ptb_id_dir}{args.dataset}"
+    )
+    args.task_dir = f"{args.output_dir}/{args.task}"
 
+    for directory in [args.results_root, args.output_dir, args.task_dir]:
+        os.makedirs(directory, exist_ok=True)
+
+
+def train(train_list, model, criterion, optimizer, epoch, logger, writer):
+    losses = AverageMeter()
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+
+    train_loader = DataLoader(
+        train_list,
+        shuffle=True,
+        batch_size=args.batch_size,
+        num_workers=args.workers,
+        drop_last=True,
+    )
+
+    logger.info(
+        "epoch %d, processed %d samples, lr %.10f"
+        % (epoch, len(train_loader.dataset), args.lr)
+    )
+
+    model.train()
+    end = time.time()
+
+    for it, (img, target) in enumerate(tqdm(train_loader, desc="Train", leave=False)):
+        data_time.update(time.time() - end)
+
+        img = img.cuda()
+        output = model(img)
+
+        target = target.type(torch.FloatTensor).unsqueeze(1).cuda()
+
+        loss = criterion(output, target)
+
+        losses.update(loss.item(), img.size(0))
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        batch_time.update(time.time() - end)
+        end = time.time()
+
+        if (it + 1) % args.print_freq == 0:
+            logger.info(
+                "Epoch: [{0}][{1}/{2}]\t"
+                "Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t"
+                "Data {data_time.val:.3f} ({data_time.avg:.3f})\t"
+                "Loss {loss.val:.4f} ({loss.avg:.4f})\t".format(
+                    epoch,
+                    it + 1,
+                    len(train_loader),
+                    batch_time=batch_time,
+                    data_time=data_time,
+                    loss=losses,
+                )
+            )
 
     writer.add_scalar("loss", losses.avg, epoch)
     Logger.current_logger().report_scalar("loss", "epoch", losses.avg, epoch)
@@ -148,11 +206,8 @@ class AverageMeter(object):
 if __name__ == "__main__":
     main()
 
-    for directory in [results_root, output_dir, task_dir]:
-        os.makedirs(directory, exist_ok=True)
-
-    logger = get_logger("Train", f"{output_dir}/{args.task}_train.log", "w")
-    writer = SummaryWriter(task_dir)
+    logger = get_logger("Train", f"{args.output_dir}/{args.task}_train.log", "w")
+    writer = SummaryWriter(args.task_dir)
 
     if args.fixed:
         fixed_seed(821)
@@ -235,60 +290,5 @@ if __name__ == "__main__":
             },
             is_best,
             args.task,
-            output_dir,
+            args.output_dir,
         )
-
-
-def train(train_list, model, criterion, optimizer, epoch, logger, writer):
-    losses = AverageMeter()
-    batch_time = AverageMeter()
-    data_time = AverageMeter()
-
-    train_loader = DataLoader(
-        train_list,
-        shuffle=True,
-        batch_size=args.batch_size,
-        num_workers=args.workers,
-        drop_last=True,
-    )
-
-    logger.info(
-        "epoch %d, processed %d samples, lr %.10f"
-        % (epoch, len(train_loader.dataset), args.lr)
-    )
-
-    model.train()
-    end = time.time()
-
-    for it, (img, target) in enumerate(tqdm(train_loader, desc="Train", leave=False)):
-        data_time.update(time.time() - end)
-
-        img = img.cuda()
-        output = model(img)
-
-        target = target.type(torch.FloatTensor).unsqueeze(1).cuda()
-
-        loss = criterion(output, target)
-
-        losses.update(loss.item(), img.size(0))
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-
-        batch_time.update(time.time() - end)
-        end = time.time()
-
-        if (it + 1) % args.print_freq == 0:
-            logger.info(
-                "Epoch: [{0}][{1}/{2}]\t"
-                "Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t"
-                "Data {data_time.val:.3f} ({data_time.avg:.3f})\t"
-                "Loss {loss.val:.4f} ({loss.avg:.4f})\t".format(
-                    epoch,
-                    it + 1,
-                    len(train_loader),
-                    batch_time=batch_time,
-                    data_time=data_time,
-                    loss=losses,
-                )
-            )
