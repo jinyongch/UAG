@@ -114,9 +114,3 @@ def np2img(img_np, save_path):
 
     plt.savefig(save_path, dpi=300)
     plt.close()
-
-
-def str2conf(input):
-    configs = input.split(" ")
-    for config in configs:
-        print(f'"{config}",')

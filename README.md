@@ -26,8 +26,8 @@ UDG (Uncertainty Driven Generalizable) is a novel model designed for counting ob
 
 ## Train
 
-1. Download RSOC Dataset form HERE.
-2. Modify `scripts/train.sh` to specify your own train options. 
+1. Download RSOC Dataset form [HERE](https://captain-whu.github.io/DOTA).
+2. Modify `scripts/train.sh` to specify your own train options.
 3. After performing the above modifications, you can start the training process by running `bash scripts/train.sh`.
 
 ## Test

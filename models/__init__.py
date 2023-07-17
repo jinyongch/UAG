@@ -1,3 +1,3 @@
-from models.UDG.model import UDG, ReproASPDNet
-from models.ResNet.Res50 import ReproRes50, UDGRes50
-from models.VGG.VGG import UDGVGG, ReproVGG
+from models.ResNet.Res50 import UDGRes50
+from models.UDG.model import UDG
+from models.VGG.VGG import UDGVGG
