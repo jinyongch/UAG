@@ -1,12 +1,12 @@
-# Uncertainty Driven Generalizable Object Counting in Remote Sensing Images
+# Uncertainty-Aware Generalization for Object Counting in Remote Sensing Imagery
 
-This repository contains the code and resources associated with our paper titled "Uncertainty Driven Generalizable Object Counting in Remote Sensing Images". Please note that the paper is currently under review for publication.
+This repository contains the code and resources associated with our paper titled "Uncertainty-Aware Generalization for Object Counting in Remote Sensing Imagery". Please note that the paper is currently under review for publication.
 
 The code is tested on Ubuntu 22.04 environment (Python3.9.0, PyTorch1.12.1) with an NVIDIA A100 GPU.
 
 ## Contents
 
-- [Uncertainty Driven Generalizable Object Counting in Remote Sensing Images](#uncertainty-driven-generalizable-object-counting-in-remote-sensing-images)
+- [Uncertainty-Aware Generalization for Object Counting in Remote Sensing Imagery](#uncertainty-aware-generalization-for-object-counting-in-remote-sensing-imagery)
   - [Contents](#contents)
   - [Introduction](#introduction)
   - [Train](#train)
@@ -19,14 +19,14 @@ The code is tested on Ubuntu 22.04 environment (Python3.9.0, PyTorch1.12.1) with
 
 ## Introduction
 
-UDG (Uncertainty Driven Generalizable) is a novel model designed for counting objects in remote sensing images. Motivated by the concept of uncertainty, UDG aims to enhance prediction accuracy and generalizability. By incorporating Monte Carlo (MC) dropout into the model, UDG generates multiple predictions and aggregates them to produce a more robust final output. Additionally, UDG takes into account data uncertainty to improve feature diversity and expand the hypothesis space, enabling better generalization to unseen domains. Extensive experiments demonstrate the superior performance of UDG compared to existing state-of-the-art methods.
+UAG (Uncertainty-Aware Generalizable) is a novel model designed for counting objects in remote sensing images. Motivated by the concept of uncertainty, UAG aims to enhance prediction accuracy and generalizability. By incorporating Monte Carlo (MC) dropout into the model, UAG generates multiple predictions and aggregates them to produce a more robust final output. Additionally, UAG takes into account data uncertainty to improve feature diversity and expand the hypothesis space, enabling better generalization to unseen domains. Extensive experiments demonstrate the superior performance of UAG compared to existing state-of-the-art methods.
 
 ![arch](assets/framework.jpg)
 ![arch](assets/uncertainty_model.jpg)
 
 ## Train
 
-1. Download RSOC Dataset form [HERE](https://captain-whu.github.io/DOTA).
+1. Download RSOC Dataset from [HERE](https://captain-whu.github.io/DOTA).
 2. Modify `scripts/train.sh` to specify your own train options.
 3. After performing the above modifications, you can start the training process by running `bash scripts/train.sh`.
 
@@ -51,11 +51,11 @@ UDG (Uncertainty Driven Generalizable) is a novel model designed for counting ob
 If you find this code or research helpful, please consider citing our paper:
 
 ```BibTeX
-@article{Li2023UDG,
-title={Uncertainty Driven Generalizable Object Counting in Remote Sensing Images},
-author={Li, Qilei and Gao, Mingliang and Chen, Jinyong and Zhai, Wenzhe and Guo, Xiangyu and Jeon, Gwanggil and Chehri, Abdellah},
+@article{Li2024UAG,
+title={Uncertainty-Aware Generalization for Object Counting in Remote Sensing Imagery},
+author={Li, Qilei and Gao, Mingliang and Chen, Jinyong and Jeon, Gwanggil and Camacho, David},
 journal={under_review}
-year={2023},
+year={2024},
 }
 ```
 
