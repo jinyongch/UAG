@@ -51,11 +51,11 @@ UAG (Uncertainty-Aware Generalizable) is a novel model designed for counting obj
 If you find this code or research helpful, please consider citing our paper:
 
 ```BibTeX
-@article{Li2024UAG,
+@article{Mao2025UAG,
 title={Uncertainty-Aware Generalization for Object Counting in Remote Sensing Imagery},
-author={Li, Qilei and Gao, Mingliang and Chen, Jinyong and Jeon, Gwanggil and Camacho, David},
+author={Qingyu Mao, Jinyong Chen, Shuai Liu, Yongsheng Liang, Zhao Huang},
 journal={under_review}
-year={2024},
+year={2025},
 }
 ```
 
